@@ -9,9 +9,12 @@ import android.widget.TextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
 
-    private TextInputEditText editPrecoAlcool, editPrecoGasolina;
+    private TextInputEditText editPrecoAlcool;
+    private TextInputEditText editPrecoGasolina;
     private TextView textResultado;
 
     @Override
@@ -27,18 +30,18 @@ public class MainActivity extends AppCompatActivity {
 
     public void calcularPreco(View view) {
         //Recuperar valores digitados
-        String precoAlcool = editPrecoAlcool.getText().toString();
-        String precoGasolina = editPrecoGasolina.getText().toString();
+        String precoAlcool = Objects.requireNonNull(editPrecoAlcool.getText()).toString();
+        String precoGasolina = Objects.requireNonNull(editPrecoGasolina.getText()).toString();
 
         //Validar os campos digitados
-        Boolean camposValidados = validarCampos(precoAlcool, precoGasolina);
-        if ( camposValidados ) {
+        boolean camposValidados = validarCampos(precoAlcool, precoGasolina);
+        if (camposValidados) {
             //Convertendo string para números
             Double valorAlcool = Double.parseDouble(precoAlcool);
             Double valorGasolina = Double.parseDouble(precoGasolina);
-            Double resultado = valorAlcool / valorGasolina;
+            double resultado = valorAlcool / valorGasolina;
 
-                if ( resultado >= 0.7) {
+                if ( resultado >= 0.9) {
                     textResultado.setText("É melhor utilizar Gasolina!");
                 } else {
                     textResultado.setText("É melhor utilizar Álcool!");
@@ -48,9 +51,9 @@ public class MainActivity extends AppCompatActivity {
             }
     }
 
-    public Boolean validarCampos(String pAlcool, String pGasolina) {
+    public boolean validarCampos(String pAlcool, String pGasolina) {
 
-        Boolean camposValidados = true;
+        boolean camposValidados = true;
         String campo  = "Preenchido";
 
         if ( pAlcool == null || pAlcool.equals("") ) {
